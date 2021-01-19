@@ -1,2 +1,5 @@
 
 .DS_Store
+__pycache__/feuilles_perso.cpython-39.pyc
+__pycache__/radar.cpython-39.pyc
+__pycache__/simulation_dees.cpython-39.pyc
