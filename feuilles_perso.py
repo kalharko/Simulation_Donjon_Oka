@@ -135,6 +135,9 @@ class PJ(P):
             out += self.Degats
         return out
 
+    def Attaque_Main_Nue(self):
+        return rand.randint(1,6) + self.Combat//2
+
     def Defense(self):
         return self.Protection + rand.randint(1, self.Ingeniosite)
 
@@ -153,22 +156,23 @@ class PNJ(P):
 
 
     def Attaque(self):
-        return self.Degats + rand.randint(1,self.Degats//2 + 1)
+        return self.Degats + rand.randint(1,ceil(self.Degats/2))
 
     def Attaque_Avantage(self):
-        return self.Degats + rand.randint(1,self.Degats//2 + 1) + rand.randint(1,self.Degats//2 + 1)
+        return self.Degats + rand.randint(1,ceil(self.Degats/2)) + rand.randint(1,ceil(self.Degats/2))
 
     def Defense(self):
         return self.Protection + rand.randint(1, self.Protection//2 + 1)
 
-    def Set_Protection_from_Defense(self, Def):
-        self.Protection = ceil((Def-1)/2.24)
-
     def Set_Degats_from_Attaque(self, Att):
-        self.Degats = ceil((Att-1)/2.24)
+        self.Degats = ceil(0.8*Att - 0.6)
 
-    def Graph_choix_Vie_Def(self, coup, PJ):
-        att_moy_PJ = PJ.Get_Mean("attaque")
+    def Graph_choix_Vie_Def(self, coup, PJ=[]):
+        att_moy_PJ = 0
+        for pj in PJ:
+            att_moy_PJ += pj.Get_Mean("attaque")
+        att_moy_PJ /= len(PJ)
+
         ptsx = []
         ptsy = []
         wholey = []
@@ -198,22 +202,34 @@ class PNJ(P):
         plt.grid()
         plt.show()
 
-    def Chose_Vie_Def(self, coup, PJ):
-        att_moy_PJ = PJ.Get_Mean("attaque")
-        next = False
-        for x in range(30, 1, -1):
-            if next:
-                self.Vie = ceil(coup*(att_moy_PJ - x))
-                self.Set_Protection_from_Defense(x)
-                return
-            if coup*(att_moy_PJ - x) > x:
-                next = True #we take the next couple as values for Vie / Defense
+    def Chose_Vie(self, coup, PJ=[]):
+        att_moy_PJ = 0
+        for pj in PJ:
+            att_moy_PJ += pj.Get_Mean("attaque")
+        att_moy_PJ /= len(PJ)
+        print(f'att_moy_PJ = {att_moy_PJ}')
+        self.Vie = ceil(att_moy_PJ * coup)
 
-    def Graph_Attaque(self, coup, PJ):
-        print(PJ.Vie/coup + PJ.Get_Mean("defense"))
+    def Graph_Attaque(self, coup, PJ=[]):
+        def_moy_PJ = 0
+        for pj in PJ:
+            def_moy_PJ += pj.Get_Mean("defense")
+        def_moy_PJ /= len(PJ)
 
-    def Chose_Degats(self, coup, PJ):
-        Att = PJ.Vie/coup + PJ.Get_Mean("defense")
+        print(PJ.Vie/coup + def_moy_PJ)
+
+    def Chose_Degats(self, coup, PJ=[]):
+        def_moy_PJ = 0
+        for pj in PJ:
+            def_moy_PJ += pj.Get_Mean("defense")
+        def_moy_PJ /= len(PJ)
+
+        vie_moy_PJ = 0
+        for pj in PJ:
+            vie_moy_PJ += pj.Vie
+        vie_moy_PJ /= len(PJ)
+        print(f'def_moy_PJ = {def_moy_PJ},  vie_moy_PJ = {vie_moy_PJ}')
+        Att = vie_moy_PJ/coup + def_moy_PJ
         self.Set_Degats_from_Attaque(Att)
 
 
@@ -227,15 +243,22 @@ class PNJ(P):
 
 
 
-mitri = PJ(2,2,2,2,2)
-# mitri.Print_Carac()
-# mitri.Display_Graphs()
+mitri = PJ(8,6,4,1,6)
+cothazan = PJ(5,5,5,5,5)
+wushang = PJ(1,1,3,10,10)
 
-insect_ouvrier = PNJ(0,0,5,0)
-# insect_ouvrier.Graph_choix_Vie_Def(4, mitri)
-insect_ouvrier.Chose_Degats(2, mitri)
-insect_ouvrier.Chose_Vie_Def(4,mitri)
+# wushang.Display_Graphs()
 
-insect_ouvrier.Display_Graphs()
-insect_ouvrier.Print_Carac()
+party = [mitri, cothazan, wushang]
+
+araignee = PNJ(6,0,7,9)
+robo = PNJ(7,0,4,26)
+boss = PNJ(9,4,3,52)
+
+# araignee.Graph_choix_Vie_Def(1, party)
+# boss.Chose_Degats(2, party)
+# boss.Chose_Vie(6,party)
+
+# robo.Display_Graphs()
+# boss.Print_Carac()
 #eof
