@@ -24,6 +24,8 @@ class P():
         return 0
     def Attaque_Avantage(self):
         return 0
+    def Attaque_Main_Nue(self):
+        return 0
     def Defense(self):
         return 0;
 
@@ -160,6 +162,12 @@ class PNJ(P):
 
     def Attaque_Avantage(self):
         return self.Degats + rand.randint(1,ceil(self.Degats/2)) + rand.randint(1,ceil(self.Degats/2))
+
+    def Attaque_Main_Nue(self):
+        if rand.randint(1,ceil(self.Degats/2)) < 0:
+            return 0
+        else:
+            return self.Degats - rand.randint(1,ceil(self.Degats/2))
 
     def Defense(self):
         return self.Protection + rand.randint(1, self.Protection//2 + 1)
