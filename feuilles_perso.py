@@ -13,6 +13,7 @@ from radar import *
 
 class P():
     def __init__(self):
+        self.Name = "P_Name"
         self.Combat = 0
         self.Degats = 0
         self.Ingeniosite = 0
@@ -112,8 +113,9 @@ class P():
 
 
 class PJ(P):
-    def __init__(self, Combat, Degats_arme, Ingeniosite, Protection_armure, Vie):
+    def __init__(self, Name, Combat, Degats_arme, Ingeniosite, Protection_armure, Vie):
         super().__init__()
+        self.Name = Name
         self.Combat = Combat
         self.Degats = Degats_arme
         self.Ingeniosite = Ingeniosite
@@ -149,8 +151,9 @@ class PJ(P):
 
 
 class PNJ(P):
-    def __init__(self, Degats, Protection, Deplacement, Vie):
+    def __init__(self, Name, Degats, Protection, Deplacement, Vie):
         super().__init__()
+        self.Name = Name
         self.Degats = Degats
         self.Protection = Protection
         self.Deplacement = Deplacement
@@ -251,17 +254,17 @@ class PNJ(P):
 
 
 
-mitri = PJ(8,6,4,1,6)
-cothazan = PJ(5,5,5,5,5)
-wushang = PJ(1,1,3,10,10)
+mitri = PJ("Mitri", 8,6,4,1,6)
+cothazan = PJ("Cothazan", 5,5,5,5,5)
+wushang = PJ("Wushang", 1,1,3,10,10)
 
 # wushang.Display_Graphs()
 
 party = [mitri, cothazan, wushang]
 
-araignee = PNJ(6,0,7,9)
-robo = PNJ(7,0,4,26)
-boss = PNJ(9,4,3,52)
+araignee = PNJ("Araignee", 6,0,7,9)
+robo = PNJ("robo", 7,0,4,26)
+boss = PNJ("Boss", 9,4,3,52)
 
 # araignee.Graph_choix_Vie_Def(1, party)
 # boss.Chose_Degats(2, party)
