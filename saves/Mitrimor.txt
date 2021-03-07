@@ -1,0 +1,6 @@
+PJ
+Combat:8
+Degats:6
+Ingeniosite:4
+Protection:1
+Vie:6

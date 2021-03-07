@@ -1,6 +1,7 @@
 import tkinter as tk
 import tkinter.font as tkFont
 from feuilles_perso import *
+import os
 
 class guiPJ():
     def __init__(self, Ps):
@@ -101,6 +102,20 @@ class guiPJ():
         self.persoId.set(str(int(key)-1))
         self.swap_perso()
 
+characters = []
+for path in os.listdir("saves"):
+    name = path.split(".")[0]
+    l = []
+    with open("saves/"+path) as file:
+        lines = file.readlines()
+        for line in lines[1:]:
+            l.append(int(line.split(":")[1].rstrip("\n")))
 
+        if lines[0] == "PJ\n":
+            characters.append(PJ(name,l[0],l[1],l[2],l[3],l[4]))
+        elif lines[0] == "PNJ\n":
+            characters.append(PNJ(name,l[0],l[1],l[2],l[3],l[4]))
+        else:
+            print("Error opening save file")
 
-gui = guiPJ([PJ("Mitri Mor", 8,6,4,1,6), PJ("Cothazan", 5,5,5,5,5), PJ("Wushang", 1,1,3,10,10)])
+gui = guiPJ(characters)
