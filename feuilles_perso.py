@@ -173,7 +173,10 @@ class PNJ(P):
             return self.Degats - rand.randint(1,ceil(self.Degats/2))
 
     def Defense(self):
-        return self.Protection + rand.randint(1, self.Protection//2 + 1)
+        if self.Protection == 0:
+            return 0
+        else:
+            return self.Protection + randint(1, self.Protection//2 + 1)
 
     def Set_Degats_from_Attaque(self, Att):
         self.Degats = ceil(0.8*Att - 0.6)

@@ -102,6 +102,7 @@ class guiPJ():
         self.persoId.set(str(int(key)-1))
         self.swap_perso()
 
+
 characters = []
 for path in listdir("saves"):
     name = path.split(".")[0]
@@ -114,7 +115,7 @@ for path in listdir("saves"):
         if lines[0] == "PJ\n":
             characters.append(PJ(name,l[0],l[1],l[2],l[3],l[4]))
         elif lines[0] == "PNJ\n":
-            characters.append(PNJ(name,l[0],l[1],l[2],l[3],l[4]))
+            characters.append(PNJ(name,l[0],l[1],l[2],l[3]))
         else:
             print("Error opening save file")
 

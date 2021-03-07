@@ -1,0 +1,5 @@
+PNJ
+Degats:7
+Protection:0
+Deplacement:4
+Vie:26
