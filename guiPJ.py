@@ -21,10 +21,11 @@ class guiPJ():
         self.root['bg'] = "#2f3136"
 
         self.Helvetica = tkFont.Font(family='Helvetica', weight='bold')
+        self.BigHelvetica = tkFont.Font(family='Helvetica', weight='bold', size=54)
         # print(tkFont.families())
 
         #dice rollsdisplay
-        self.label = tk.Label(self.root, bg="#36393f")
+        self.label = tk.Label(self.root, bg="#36393f", font=self.BigHelvetica)
         self.label.grid(row=0, column=0, sticky='nesw', padx=10, pady=10)
 
         #stats
@@ -80,21 +81,26 @@ class guiPJ():
             self.stats[i]["text"]= txt[i]+str(value[i])
 
     def button_att(self):
+        self.label["font"] = self.BigHelvetica
         self.label["text"] = str(self.P.Attaque())
 
     def button_att_av(self):
+        self.label["font"] = self.BigHelvetica
         self.label["text"] = str(self.P.Attaque_Avantage())
 
     def button_att_nue(self):
+        self.label["font"] = self.BigHelvetica
         self.label["text"] = str(self.P.Attaque_Main_Nue())
 
     def button_def(self):
+        self.label["font"] = self.BigHelvetica
         self.label["text"] = str(self.P.Defense())
 
     def swap_perso(self):
         self.P = self.Ps[self.persoId.get()]
         self.root.title(self.P.Name)
         self.update_stats_display()
+        self.label["font"] = self.Helvetica
         self.label["text"] = self.P.Name
 
     def quick_character_selection(self, arg):
