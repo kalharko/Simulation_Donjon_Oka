@@ -1,7 +1,7 @@
 import tkinter as tk
 import tkinter.font as tkFont
-from feuilles_perso import *
-import os
+from feuilles_perso_light import *
+from os import listdir
 
 class guiPJ():
     def __init__(self, Ps):
@@ -103,7 +103,7 @@ class guiPJ():
         self.swap_perso()
 
 characters = []
-for path in os.listdir("saves"):
+for path in listdir("saves"):
     name = path.split(".")[0]
     l = []
     with open("saves/"+path) as file:
