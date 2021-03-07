@@ -22,9 +22,11 @@ class guiPJ():
         self.Helvetica = tkFont.Font(family='Helvetica', weight='bold')
         # print(tkFont.families())
 
+        #dice rollsdisplay
         self.label = tk.Label(self.root, bg="#36393f")
         self.label.grid(row=0, column=0, sticky='nesw', padx=10, pady=10)
 
+        #stats
         self.frame_stats = tk.Frame(self.root, bg="#36393f")
         self.frame_stats.grid(row=0, column=1, sticky="nesw", padx=15, pady=15)
         self.frame_stats.columnconfigure(0, weight=1)
@@ -43,6 +45,7 @@ class guiPJ():
         self.stats[3].grid(row=1, column=1)
         self.update_stats_display()
 
+        #buttons
         self.but_att = tk.Button(self.root, bg="#36393f", text="Attaque", command=self.button_att, fg="#9b9c9f", font=self.Helvetica)
         self.but_att.grid(row=1, column=0, sticky="nesw", padx=10, pady=10)
         self.but_att_av = tk.Button(self.root, bg="#36393f", text="Attaque Avantage", command=self.button_att_av, fg="#9b9c9f", font=self.Helvetica)
@@ -52,14 +55,19 @@ class guiPJ():
         self.but_att_nue = tk.Button(self.root, bg="#36393f", text="Attaque Main nue", command=self.button_att_nue, fg="#9b9c9f", font=self.Helvetica)
         self.but_att_nue.grid(row=2, column=1, sticky="nesw", padx=10, pady=10)
 
-
+        #character selection meu
+        self.persoId = tk.IntVar()
         self.menubar = tk.Menu(self.root, bg="#9b9c9f")
-        self.filemenu = tk.Menu(self.menubar, tearoff=0)
-        for p in self.Ps:
-            self.filemenu.add_command(label=p.Name, command=self.swap_perso)
-        self.menubar.add_cascade(label="Perso", menu=self.filemenu)
+        self.persomenu = tk.Menu(self.menubar, tearoff=0)
+        for i,p in enumerate(self.Ps):
+            self.persomenu.add_radiobutton(label=p.Name, variable=self.persoId, value=i, command=self.swap_perso, accelerator=str(i+1))
+        self.menubar.add_cascade(label="Perso", menu=self.persomenu)
 
         self.root.config(menu=self.menubar)
+
+        #keyboard binds
+        for i,p in enumerate(self.Ps):
+            self.root.bind(str(i+1), self.quick_character_selection)
 
         self.root.mainloop()
 
@@ -83,7 +91,15 @@ class guiPJ():
         self.label["text"] = str(self.P.Defense())
 
     def swap_perso(self):
-        pass
+        self.P = self.Ps[self.persoId.get()]
+        self.root.title(self.P.Name)
+        self.update_stats_display()
+        self.label["text"] = self.P.Name
+
+    def quick_character_selection(self, arg):
+        key = arg.keysym
+        self.persoId.set(str(int(key)-1))
+        self.swap_perso()
 
 
 

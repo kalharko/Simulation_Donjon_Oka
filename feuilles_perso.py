@@ -195,7 +195,7 @@ class PNJ(P):
             wholey.append(round(ptsy[-1]))
 
         #style
-        plt.title(f"Choix Vie/Def pour PNJ")
+        plt.title("Choix Vie/Def pour PNJ")
         plt.xlabel('Defense')
         plt.ylabel('Vie')
         ax = plt.axes()
