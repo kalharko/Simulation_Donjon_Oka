@@ -29,18 +29,23 @@ class PJ(P):
 
 
     def Attaque(self):
+        crit = 0
         out = randint(1,6) + self.Combat
-        while randint(1,10) == 10:
+        while randint(1,16-self.Combat) == 1:
+            crit += 1
             out += self.Degats
-        return out
+        return out,crit
 
     def Attaque_Avantage(self):
+        crit = 0
         out = randint(1,6) + self.Combat
-        while randint(1,10) == 10:
+        while randint(1,16-self.Combat) == 1:
+            crit += 1
             out += self.Degats
-        while randint(1,10) == 10:
+        while randint(1,16-self.Combat) == 1:
+            crit += 1
             out += self.Degats
-        return out
+        return (out,crit)
 
     def Attaque_Main_Nue(self):
         return randint(1,6) + self.Combat//2
@@ -64,10 +69,10 @@ class PNJ(P):
 
 
     def Attaque(self):
-        return self.Degats + randint(1,ceil(self.Degats/2))
+        return self.Degats + randint(1,ceil(self.Degats/2)),0
 
     def Attaque_Avantage(self):
-        return self.Degats + randint(1,ceil(self.Degats/2)) + randint(1,ceil(self.Degats/2))
+        return self.Degats + randint(1,ceil(self.Degats/2)) + randint(1,ceil(self.Degats/2)),0
 
     def Attaque_Main_Nue(self):
         if randint(1,ceil(self.Degats/2)) < 0:

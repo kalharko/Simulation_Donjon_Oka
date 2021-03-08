@@ -8,6 +8,7 @@ class guiPJ():
 
         self.Ps = Ps
         self.P = self.Ps[0]
+        self.crit_colors = ["#a0a","#b0b","#c0c","#d0d","#e0e","#f0f"]
 
         #tk
         self.root = tk.Tk()
@@ -35,16 +36,21 @@ class guiPJ():
         self.frame_stats.columnconfigure(1, weight=1)
         self.frame_stats.rowconfigure(0, weight=1)
         self.frame_stats.rowconfigure(1, weight=1)
+        self.frame_stats.rowconfigure(2, weight=1)
 
         self.stats = []
         self.stats.append(tk.Label(self.frame_stats, bg="#393c43", fg="#9b9c9f", font=self.Helvetica))
         self.stats.append(tk.Label(self.frame_stats, bg="#393c43", fg="#9b9c9f", font=self.Helvetica))
         self.stats.append(tk.Label(self.frame_stats, bg="#393c43", fg="#9b9c9f", font=self.Helvetica))
         self.stats.append(tk.Label(self.frame_stats, bg="#393c43", fg="#9b9c9f", font=self.Helvetica))
+        self.stats.append(tk.Label(self.frame_stats, bg="#393c43", fg="#9b9c9f", font=self.Helvetica))
+        self.stats.append(tk.Label(self.frame_stats, bg="#393c43", fg="#9b9c9f", font=self.Helvetica))
         self.stats[0].grid(row=0, column=0)
-        self.stats[1].grid(row=1, column=0)
-        self.stats[2].grid(row=0, column=1)
+        self.stats[1].grid(row=0, column=1)
+        self.stats[2].grid(row=1, column=0)
         self.stats[3].grid(row=1, column=1)
+        self.stats[4].grid(row=2, column=0)
+        self.stats[5].grid(row=2, column=1)
         self.update_stats_display()
 
         #buttons
@@ -75,24 +81,40 @@ class guiPJ():
 
 
     def update_stats_display(self):
-        txt = ["Combat : ", "Degats arme : ", "Ingeniosite : ", "Protection : "]
-        value = [self.P.Combat, self.P.Degats, self.P.Ingeniosite, self.P.Protection]
-        for i in range(4):
-            self.stats[i]["text"]= txt[i]+str(value[i])
+        if type(self.P) == type(PJ("a",0,0,0,0,0)):
+            txt = ["Combat : ", "Degats : ", "Ingeniosite : ", "Protection : ", "Vie : ", ""]
+            value = [self.P.Combat, self.P.Degats, self.P.Ingeniosite, self.P.Protection, self.P.Vie, ""]
+            for i in range(6):
+                self.stats[i]["text"]= txt[i]+str(value[i])
+        elif type(self.P) == type(PNJ("a",0,0,0,0)):
+            txt = ["Degats : ", "Protection : ", "Deplacement : ", "Vie : ", "", ""]
+            value = [self.P.Degats, self.P.Protection, self.P.Deplacement, self.P.Vie, "", ""]
+            for i in range(6):
+                self.stats[i]["text"]= txt[i]+str(value[i])
 
     def button_att(self):
+        self.label["bg"] = "#36393f"
         self.label["font"] = self.BigHelvetica
-        self.label["text"] = str(self.P.Attaque())
+        roll = self.P.Attaque()
+        self.label["text"] = str(roll[0])
+        if roll[1] != 0:
+            self.label["bg"] = self.crit_colors[roll[1]]
 
     def button_att_av(self):
+        self.label["bg"] = "#36393f"
         self.label["font"] = self.BigHelvetica
-        self.label["text"] = str(self.P.Attaque_Avantage())
+        roll = self.P.Attaque_Avantage()
+        self.label["text"] = str(roll[0])
+        if roll[1] != 0:
+            self.label["bg"] = self.crit_colors[roll[1]]
 
     def button_att_nue(self):
+        self.label["bg"] = "#36393f"
         self.label["font"] = self.BigHelvetica
         self.label["text"] = str(self.P.Attaque_Main_Nue())
 
     def button_def(self):
+        self.label["bg"] = "#36393f"
         self.label["font"] = self.BigHelvetica
         self.label["text"] = str(self.P.Defense())
 
@@ -100,6 +122,7 @@ class guiPJ():
         self.P = self.Ps[self.persoId.get()]
         self.root.title(self.P.Name)
         self.update_stats_display()
+        self.label["bg"] = "#36393f"
         self.label["font"] = self.Helvetica
         self.label["text"] = self.P.Name
 
